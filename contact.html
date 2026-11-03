@@ -326,23 +326,22 @@
             <!-- Email & Phone -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="email" class="flex items-center justify-between text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
-                  <span>Work Email <span class="text-lightGreen">*</span></span>
-                  <span class="text-[10px] text-mutedOlive/70 font-normal lowercase font-sans">(business only)</span>
+                <label for="email" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
+                  <span>Work / Personal Email <span class="text-lightGreen">*</span></span>
                 </label>
                 <input 
                   type="email" 
                   id="email" 
                   name="email" 
                   required 
-                  placeholder="john@yourbrand.com"
+                  placeholder="name@gmail.com or name@company.com"
                   oninput="validateBusinessEmail('email', 'contactEmailError')"
                   onblur="validateBusinessEmail('email', 'contactEmailError')"
                   class="w-full h-11 bg-background border border-border rounded-xl px-4 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
                 />
                 <p id="contactEmailError" class="hidden text-rose-400 text-xs font-mono mt-1.5 flex items-center gap-1.5">
                   <span>⚠️</span>
-                  <span>Please use a working business email address.</span>
+                  <span>Please enter a valid working email address.</span>
                 </p>
               </div>
 
@@ -529,25 +528,15 @@
       }
     });
 
-    // Corporate / Business Email Validation Blocklist & Verifier
-    const BLOCKED_EMAIL_DOMAINS = [
-      // Free consumer webmail providers
-      'gmail.com', 'googlemail.com',
-      'yahoo.com', 'yahoo.co.uk', 'yahoo.ca', 'yahoo.in', 'yahoo.fr', 'yahoo.de', 'yahoo.es', 'yahoo.com.br', 'yahoo.co.jp', 'ymail.com', 'rocketmail.com',
-      'hotmail.com', 'hotmail.co.uk', 'hotmail.fr', 'hotmail.de', 'hotmail.es', 'hotmail.it',
-      'outlook.com', 'outlook.co.uk', 'outlook.fr', 'outlook.de', 'outlook.es', 'live.com', 'live.co.uk', 'msn.com', 'passport.com',
-      'icloud.com', 'me.com', 'mac.com',
-      'aol.com', 'aim.com',
-      'proton.me', 'protonmail.com', 'protonmail.ch', 'pm.me',
-      'zoho.com', 'zohomail.com',
-      'yandex.com', 'yandex.ru', 'ya.ru',
-      'mail.com', 'email.com', 'usa.com',
-      'gmx.com', 'gmx.net', 'gmx.de',
-      'tutanota.com', 'tutamail.com', 'tuta.io', 'tuta.com',
-      'fastmail.com', 'fastmail.fm',
-      'hushmail.com', 'hush.com',
-      'inbox.com', 'rediffmail.com',
-      // Common temporary & disposable email services
+    // Valid Working Email Filter (Allows Gmail, Yahoo, Outlook & Corporate; blocks dummy/disposable/bots)
+    const FAKE_AND_DISPOSABLE_DOMAINS = [
+      // Dummy, fake & test domains
+      'example.com', 'example.org', 'example.net',
+      'test.com', 'testing.com', 'sample.com', 'demo.com',
+      'fake.com', 'asdf.com', 'qwerty.com', 'invalid.com',
+      'xyz.com', 'abc.com', '123.com', 'random.com',
+      'none.com', 'null.com', 'domain.com',
+      // Common temporary & disposable email services used by spam bots
       'mailinator.com', 'mailinator.net', 'mailin8r.com', 'suremail.info',
       'yopmail.com', 'yopmail.fr', 'yopmail.net', 'cool.fr.nf', 'courriel.fr.nf', 'jetable.fr.nf',
       '10minutemail.com', '10minutemail.net', '10minmail.com',
@@ -566,11 +555,17 @@
 
       const parts = normalized.split('@');
       if (parts.length !== 2) return false;
+      const username = parts[0].trim();
       const domain = parts[1].trim();
 
-      // Check if exact domain or parent domain matches blocklist
-      for (let i = 0; i < BLOCKED_EMAIL_DOMAINS.length; i++) {
-        const blocked = BLOCKED_EMAIL_DOMAINS[i];
+      // Block generic test usernames (e.g. test@, asdf@, fake@) on test/example domains
+      if (['test', 'fake', 'asdf', 'qwerty'].includes(username) && (domain.includes('test') || domain.includes('example'))) {
+        return false;
+      }
+
+      // Check if exact domain or parent domain matches fake/disposable blocklist
+      for (let i = 0; i < FAKE_AND_DISPOSABLE_DOMAINS.length; i++) {
+        const blocked = FAKE_AND_DISPOSABLE_DOMAINS[i];
         if (domain === blocked || domain.endsWith('.' + blocked)) {
           return false;
         }
