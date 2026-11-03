@@ -6,3 +6,4 @@ desktop.ini
 # Logs & temp files
 *.log
 *.tmp
+push_to_github.bat
