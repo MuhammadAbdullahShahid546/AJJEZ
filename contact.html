@@ -388,7 +388,7 @@
               </div>
             </div>
 
-            <!-- Email & Phone -->
+            <!-- Gmail Address & Gender -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="email" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
@@ -411,39 +411,6 @@
               </div>
 
               <div>
-                <label for="phone" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
-                  <span>Phone Number <span class="text-lightGreen">*</span></span>
-                </label>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  name="phone" 
-                  required 
-                  placeholder="+92 300 1234567"
-                  class="w-full h-11 bg-background border border-border rounded-xl px-4 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
-                />
-              </div>
-            </div>
-
-            <!-- Age & Gender -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="age" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
-                  <span>Age <span class="text-lightGreen">*</span></span>
-                </label>
-                <input 
-                  type="number" 
-                  id="age" 
-                  name="age" 
-                  min="16" 
-                  max="100" 
-                  required 
-                  placeholder="26"
-                  class="w-full h-11 bg-background border border-border rounded-xl px-4 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
-                />
-              </div>
-
-              <div>
                 <label for="gender" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
                   <span>Gender <span class="text-lightGreen">*</span></span>
                 </label>
@@ -462,30 +429,10 @@
               </div>
             </div>
 
-            <!-- Consultation / Service Type -->
-            <div>
-              <label for="serviceInterest" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
-                <span>Area of Interest <span class="text-lightGreen">*</span></span>
-              </label>
-              <select 
-                id="serviceInterest" 
-                name="serviceInterest" 
-                required
-                class="w-full h-11 bg-background border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all cursor-pointer"
-              >
-                <option value="" disabled selected class="text-zinc-500">Select consultation focus</option>
-                <option value="performance-marketing" class="bg-background text-foreground">Performance Marketing & Paid Ad Scaling</option>
-                <option value="growth-consultancy" class="bg-background text-foreground">Comprehensive Growth Strategy Consultancy</option>
-                <option value="social-media" class="bg-background text-foreground">Social Media Handling & Brand Voice</option>
-                <option value="cro-funnels" class="bg-background text-foreground">Conversion Funnel & Landing Page Optimization</option>
-                <option value="general-inquiry" class="bg-background text-foreground">General Collaboration / Inquiries</option>
-              </select>
-            </div>
-
-            <!-- Message Field -->
+            <!-- Message / Feedback Field -->
             <div>
               <label for="message" class="flex items-center text-xs font-mono font-medium text-mutedOlive uppercase mb-1.5 h-5">
-                <span>Your Message / Business Context <span class="text-lightGreen">*</span></span>
+                <span>What's your feedback? <span class="text-lightGreen">*</span></span>
               </label>
               <textarea 
                 id="message" 
@@ -494,12 +441,12 @@
                 required
                 oninput="validateBusinessMessage('message', 'contactMessageError', 'contactMessageErrorText', true)"
                 onblur="validateBusinessMessage('message', 'contactMessageError', 'contactMessageErrorText', true)"
-                placeholder="Share your brand details, goals, or any specific challenges you would like to consult on..."
+                placeholder="Share your thoughts, suggestions, or feedback about AJJEZ 3-in-1 Super App..."
                 class="w-full bg-background border border-border rounded-xl p-4 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all resize-none"
               ></textarea>
               <p id="contactMessageError" class="hidden text-rose-400 text-xs font-mono mt-1.5 flex items-center gap-1.5">
                 <span>⚠️</span>
-                <span id="contactMessageErrorText">Please enter a valid business message.</span>
+                <span id="contactMessageErrorText">Please enter your feedback.</span>
               </p>
             </div>
 
@@ -510,7 +457,7 @@
                 id="contactSubmitBtn"
                 class="w-full h-12 px-6 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-sm transition-all shadow-lg shadow-sage/30 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Send Message</span>
+                <span>Send Feedback</span>
                 <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                 </svg>
@@ -759,7 +706,7 @@
       // Check Work / Business Relevance & Gibberish
       if (isRequired && !isMeaningfulBusinessMessage(val)) {
         container.classList.remove('hidden');
-        textElem.textContent = "Please provide a meaningful inquiry (at least 3 words) about your brand, growth, or consulting needs.";
+        textElem.textContent = "Please provide meaningful feedback (at least 3 words).";
         input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
         input.classList.remove('border-lightGreen/60');
         return false;
@@ -871,6 +818,9 @@
 
   <!-- AJJEZ In-Menu Session Engine -->
   <script src="session.js"></script>
+
+  <!-- AJJEZ 2-Minute Feedback Engine -->
+  <script src="feedback.js"></script>
 
 </body>
 </html>
