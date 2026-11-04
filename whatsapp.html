@@ -67,11 +67,11 @@
   <!-- ========================================== -->
   <!-- Slide-out Side Menu Drawer -->
   <!-- ========================================== -->
-  <div id="sideMenuBackdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0" onclick="toggleSideMenu()"></div>
-  <aside id="sideMenuDrawer" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-card/95 backdrop-blur-xl border-l border-border z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between shadow-2xl">
-    <div>
+  <div id="sideMenuBackdrop" class="fixed inset-0 bg-black/85 backdrop-blur-xl z-50 hidden transition-opacity duration-300 opacity-0" onclick="toggleSideMenu()"></div>
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 bottom-0 w-85 max-w-[92vw] sm:w-96 bg-card/95 backdrop-blur-2xl border-l border-border z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between shadow-2xl overflow-hidden">
+    <div class="flex-1 flex flex-col min-h-0 overflow-y-auto">
       <!-- Drawer Header -->
-      <div class="h-16 px-5 border-b border-border flex items-center justify-between">
+      <div class="h-16 px-5 border-b border-border flex items-center justify-between shrink-0">
         <div class="flex items-center gap-2.5">
           <div class="size-8 rounded-lg overflow-hidden border border-sage/40 bg-black shrink-0">
             <img src="logo.png?v=aajez" alt="AJJEZ Logo" class="w-full h-full object-cover">
@@ -88,13 +88,11 @@
         </button>
       </div>
 
-      <!-- In-Menu Account & Guest Access -->
-      <div class="px-4 pt-3.5 pb-1">
-        <div id="drawerAuthCard"></div>
-      </div>
+      <!-- In-Menu Account & Guest Access (Covers drawer when logged out) -->
+      <div id="drawerAuthCard"></div>
 
-      <!-- Navigation Links -->
-      <div class="p-4 space-y-1.5">
+      <!-- Navigation Links (Locked until user signs in or continues as guest) -->
+      <div id="drawerNavLinks" class="p-4 space-y-1.5">
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 py-1">Main Hub</div>
         <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-muted text-mutedOlive hover:text-foreground text-sm font-medium transition-colors">
           <span class="text-base">🏠</span>
@@ -143,7 +141,7 @@
     </div>
 
     <!-- Drawer Footer -->
-    <div class="p-4 border-t border-border bg-card">
+    <div id="drawerFooter" class="p-4 border-t border-border bg-card shrink-0">
       <div class="p-3 rounded-xl bg-evergreen/70 border border-sage/30 text-xs text-mutedOlive space-y-1">
         <div class="text-white font-semibold flex items-center gap-1.5">
           <span class="size-2 rounded-full bg-lightGreen animate-ping"></span>

@@ -86,35 +86,34 @@
   <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-sage/15 blur-[130px] rounded-full pointer-events-none -z-10"></div>
 
   <!-- Side Menu Backdrop Overlay -->
-  <div id="sideMenuBackdrop" onclick="toggleSideMenu()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 hidden"></div>
+  <div id="sideMenuBackdrop" onclick="toggleSideMenu()" class="fixed inset-0 bg-black/85 backdrop-blur-xl z-50 transition-opacity duration-300 opacity-0 hidden"></div>
 
   <!-- Slide-out Side Menu Drawer -->
-  <aside id="sideMenuDrawer" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-background/98 border-l border-border z-50 flex flex-col transition-transform duration-300 translate-x-full shadow-2xl backdrop-blur-2xl">
-    <!-- Drawer Header -->
-    <div class="p-5 border-b border-border flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="size-9 rounded-lg overflow-hidden border border-sage/40 shadow-sm bg-black shrink-0">
-          <img src="logo.png?v=aajez" alt="AJJEZ Logo" class="w-full h-full object-cover">
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 bottom-0 w-85 max-w-[92vw] sm:w-96 bg-card/95 backdrop-blur-2xl border-l border-border z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between shadow-2xl overflow-hidden">
+    <div class="flex-1 flex flex-col min-h-0 overflow-y-auto">
+      <!-- Drawer Header -->
+      <div class="h-16 px-5 border-b border-border flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="size-9 rounded-lg overflow-hidden border border-sage/40 shadow-sm bg-black shrink-0">
+            <img src="logo.png?v=aajez" alt="AJJEZ Logo" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <span class="font-bold text-base tracking-tight text-white block">AJJEZ</span>
+            <span class="font-mono text-[10px] text-lightGreen uppercase tracking-wider">3-in-1 Platform</span>
+          </div>
         </div>
-        <div>
-          <span class="font-bold text-base tracking-tight text-white block">AJJEZ</span>
-          <span class="font-mono text-[10px] text-lightGreen uppercase tracking-wider">3-in-1 Platform</span>
-        </div>
+        <button onclick="toggleSideMenu()" class="p-2 rounded-lg hover:bg-muted text-mutedOlive hover:text-white transition-colors" title="Close Menu">
+          <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
-      <button onclick="toggleSideMenu()" class="p-2 rounded-lg hover:bg-muted text-mutedOlive hover:text-white transition-colors" title="Close Menu">
-        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
 
-    <!-- Drawer Navigation Content -->
-    <div class="flex-1 overflow-y-auto p-4 space-y-6">
-      <!-- In-Menu Account & Guest Access -->
+      <!-- In-Menu Account & Guest Access (Covers drawer when logged out) -->
       <div id="drawerAuthCard"></div>
 
-      <!-- 3-in-1 Platform Section -->
-      <div class="space-y-1.5">
+      <!-- Navigation Links (Locked until user signs in or continues as guest) -->
+      <div id="drawerNavLinks" class="p-4 space-y-1.5">
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 pb-1">3-in-1 Super Apps</div>
         
         <!-- Facebook Link -->
@@ -154,7 +153,7 @@
     </div>
 
     <!-- Drawer Footer -->
-    <div class="p-4 border-t border-border bg-card">
+    <div id="drawerFooter" class="p-4 border-t border-border bg-card shrink-0">
       <div class="p-3 rounded-xl bg-evergreen/70 border border-sage/30 text-xs text-mutedOlive space-y-1">
         <div class="text-white font-semibold flex items-center gap-1.5">
           <span class="size-2 rounded-full bg-lightGreen animate-ping"></span>
