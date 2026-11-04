@@ -88,6 +88,11 @@
         </button>
       </div>
 
+      <!-- In-Menu Account & Guest Access -->
+      <div class="px-4 pt-3.5 pb-1">
+        <div id="drawerAuthCard"></div>
+      </div>
+
       <!-- Navigation Links -->
       <div class="p-4 space-y-1.5">
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 py-1">Main Hub</div>
@@ -467,6 +472,29 @@
       container.appendChild(newMsg);
       input.value = "";
       container.scrollTop = container.scrollHeight;
+
+      // Simulated auto-reply from Founder Muhammad Abdullah Shahid if chatting with Abdullah
+      const activeChatName = document.getElementById('activeChatName');
+      if (activeChatName && activeChatName.textContent.includes('Abdullah')) {
+        setTimeout(() => {
+          const session = (window.AJJEZ_SESSION && window.AJJEZ_SESSION.getSession()) || { name: 'Friend' };
+          const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const replyMsg = document.createElement('div');
+          replyMsg.className = "flex justify-start animate-fade-in";
+          replyMsg.innerHTML = `
+            <div class="bg-card text-foreground border border-border/80 p-3.5 rounded-2xl rounded-tl-sm text-xs max-w-[80%] space-y-1.5 shadow-md">
+              <div class="flex items-center gap-1.5 text-[10px] font-mono text-lightGreen font-bold">
+                <span>Muhammad Abdullah Shahid</span>
+                <span class="text-tea bg-evergreen px-1.5 py-0.2 rounded-full border border-sage/40">Founder</span>
+              </div>
+              <p>Hello ${session.name}! Thanks for reaching out on AJJEZ WhatsApp. Your session is active across our 3-in-1 ecosystem! 🚀</p>
+              <div class="text-[10px] font-mono text-mutedOlive text-right">${replyTime}</div>
+            </div>
+          `;
+          container.appendChild(replyMsg);
+          container.scrollTop = container.scrollHeight;
+        }, 1200);
+      }
     }
 
     function switchChat(name) {
@@ -479,6 +507,9 @@
       btn.textContent = isPlayingVoice ? "⏸" : "▶";
     }
   </script>
+
+  <!-- AJJEZ In-Menu Session Engine -->
+  <script src="session.js"></script>
 
 </body>
 </html>
