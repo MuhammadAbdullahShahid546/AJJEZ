@@ -326,14 +326,12 @@
           </p>
         </div>
 
-        <form id="consultationForm" action="https://formsubmit.co/ajjezoffical.dev@gmail.com" method="POST" onsubmit="handleConsultationSubmit(event)" class="space-y-4 text-left">
+        <form id="consultationForm" action="https://formspree.io/f/myeeopbg" method="POST" onsubmit="handleConsultationSubmit(event)" class="space-y-4 text-left">
           
-          <!-- FormSubmit Configuration & Anti-Bot Safeguards -->
+          <!-- Formspree Configuration & Anti-Bot Safeguards -->
           <input type="hidden" name="_subject" value="New Growth Consultation Request — AJJEZ">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <!-- Honeypot Bot Trap -->
-          <input type="text" name="_honey" id="consultHoney" class="hidden" style="display:none;" tabindex="-1" autocomplete="off">
+          <!-- Formspree Honeypot Bot Trap -->
+          <input type="text" name="_gotcha" id="consultHoney" class="hidden" style="display:none;" tabindex="-1" autocomplete="off">
           
           <!-- Name & Company -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -694,7 +692,7 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span>Routing to ajjezoffical.dev@gmail.com...</span>
+        <span>Sending Request...</span>
       `;
 
       // Extract form fields into payload
@@ -702,7 +700,7 @@
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch("https://formsubmit.co/ajax/ajjezoffical.dev@gmail.com", {
+        const response = await fetch("https://formspree.io/f/myeeopbg", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -711,21 +709,25 @@
           body: JSON.stringify(data)
         });
 
-        btn.classList.replace('bg-sage', 'bg-evergreen');
-        btn.innerHTML = `<span>Sent to ajjezoffical.dev@gmail.com! ✨</span>`;
-        success.classList.remove('hidden');
-        form.reset();
+        if (response.ok) {
+          btn.classList.replace('bg-sage', 'bg-evergreen');
+          btn.innerHTML = `<span>Sent to ajjezoffical.dev@gmail.com! ✨</span>`;
+          success.classList.remove('hidden');
+          form.reset();
 
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.classList.replace('bg-evergreen', 'bg-sage');
-          btn.innerHTML = `
-            <span>Submit Consultation Request</span>
-            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-            </svg>
-          `;
-        }, 6000);
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.classList.replace('bg-evergreen', 'bg-sage');
+            btn.innerHTML = `
+              <span>Submit Consultation Request</span>
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            `;
+          }, 6000);
+        } else {
+          form.submit();
+        }
       } catch (err) {
         console.error("Submission error:", err);
         // Fallback to direct submission if fetch was blocked by network/adblocker

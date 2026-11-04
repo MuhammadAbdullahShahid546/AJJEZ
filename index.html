@@ -603,13 +603,11 @@
               <p class="text-xs text-mutedOlive">Route your inquiry directly to ajjezoffical.dev@gmail.com.</p>
             </div>
 
-            <form id="homeContactForm" action="https://formsubmit.co/ajjezoffical.dev@gmail.com" method="POST" onsubmit="handleHomeContactSubmit(event)" class="space-y-4 text-left">
-              <!-- FormSubmit Anti-Bot Safeguards -->
+            <form id="homeContactForm" action="https://formspree.io/f/myeeopbg" method="POST" onsubmit="handleHomeContactSubmit(event)" class="space-y-4 text-left">
+              <!-- Formspree Anti-Bot Safeguards -->
               <input type="hidden" name="_subject" value="New Inquiry from Homepage — AJJEZ">
-              <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="_captcha" value="false">
               <!-- Honeypot -->
-              <input type="text" name="_honey" id="homeHoney" class="hidden" style="display:none;" tabindex="-1" autocomplete="off">
+              <input type="text" name="_gotcha" id="homeHoney" class="hidden" style="display:none;" tabindex="-1" autocomplete="off">
 
               <!-- Name & Company -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -928,14 +926,14 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span>Sending to ajjezoffical.dev@gmail.com...</span>
+        <span>Sending Message...</span>
       `;
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch("https://formsubmit.co/ajax/ajjezoffical.dev@gmail.com", {
+        const response = await fetch("https://formspree.io/f/myeeopbg", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -948,16 +946,21 @@
           form.reset();
           success.classList.remove('hidden');
           btn.innerHTML = `<span>Message Sent Successfully ✅</span>`;
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = `
+              <span>Send Message</span>
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            `;
+          }, 6000);
         } else {
-          alert("Submission could not be completed at this moment. Please email ajjezoffical.dev@gmail.com directly.");
-          btn.disabled = false;
-          btn.innerHTML = `<span>Try Again</span>`;
+          form.submit();
         }
       } catch (err) {
         console.error(err);
-        alert("Error connecting to server. Please email ajjezoffical.dev@gmail.com directly.");
-        btn.disabled = false;
-        btn.innerHTML = `<span>Try Again</span>`;
+        form.submit();
       }
     }
   </script>
