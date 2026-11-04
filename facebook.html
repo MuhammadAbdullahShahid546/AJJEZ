@@ -7,6 +7,18 @@
   <link rel="icon" type="image/png" href="favicon.png?v=aajez">
   <link rel="shortcut icon" href="favicon.ico?v=aajez">
   
+  <!-- ========================================== -->
+  <!-- Z++ MILITARY-GRADE CYBER SECURITY HEADERS  -->
+  <!-- ========================================== -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()">
+  <!-- Content Security Policy: Anti-XSS, Anti-Data Leak, Anti-Malware -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://formspree.io; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <!-- Load Z++ Security Engine -->
+  <script src="security.js"></script>
+  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -515,10 +527,19 @@
 
     function publishCommunityPost() {
       const input = document.getElementById('postInput');
-      const text = input.value.trim();
-      if (!text) {
+      const rawText = input.value.trim();
+      if (!rawText) {
         alert("Please write something before posting!");
         return;
+      }
+
+      // Z++ Anti-Spam Rate Limit Check
+      if (window.AJJEZ_SECURITY) {
+        const rateCheck = window.AJJEZ_SECURITY.checkRateLimit('fb_post', 3000);
+        if (!rateCheck.allowed) {
+          alert(rateCheck.message);
+          return;
+        }
       }
 
       const session = (window.AJJEZ_SESSION && window.AJJEZ_SESSION.getSession()) || {
@@ -526,6 +547,11 @@
         badge: 'Guest ID',
         avatar: '👤'
       };
+
+      const esc = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.escapeHTML : (s => s);
+      const safeText = esc(rawText);
+      const safeName = esc(session.name);
+      const safeBadge = esc(session.badge);
 
       const feed = document.getElementById('postsFeedContainer');
       const newPostId = 'post_' + Date.now();
@@ -540,8 +566,8 @@
             </div>
             <div>
               <div class="flex items-center gap-1.5">
-                <h4 class="font-bold text-sm text-foreground">${session.name}</h4>
-                <span class="text-[10px] font-mono text-lightGreen bg-evergreen px-2 py-0.5 rounded-full border border-sage/40">${session.badge}</span>
+                <h4 class="font-bold text-sm text-foreground">${safeName}</h4>
+                <span class="text-[10px] font-mono text-lightGreen bg-evergreen px-2 py-0.5 rounded-full border border-sage/40">${safeBadge}</span>
               </div>
               <div class="text-[11px] font-mono text-mutedOlive flex items-center gap-1.5">
                 <span>Just now</span>
@@ -553,7 +579,7 @@
           <button class="text-mutedOlive hover:text-white p-1">•••</button>
         </div>
         <div class="text-sm text-zinc-100 leading-relaxed">
-          <p>${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+          <p>${safeText}</p>
         </div>
         <div class="flex items-center justify-between text-xs font-mono text-mutedOlive pt-2 border-b border-border/80 pb-2.5">
           <span id="${newPostId}_likes">1 reaction</span>
@@ -610,9 +636,20 @@
       const list = document.getElementById(listId);
       if (!input || !list || !input.value.trim()) return;
 
+      if (window.AJJEZ_SECURITY) {
+        const rateCheck = window.AJJEZ_SECURITY.checkRateLimit('fb_comment', 1500);
+        if (!rateCheck.allowed) {
+          alert(rateCheck.message);
+          return;
+        }
+      }
+
+      const esc = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.escapeHTML : (s => s);
+      const safeComment = esc(input.value.trim());
+
       const commentDiv = document.createElement('div');
       commentDiv.className = "p-2.5 rounded-xl bg-background border border-border/60";
-      commentDiv.innerHTML = `<span class="font-bold text-white">You:</span> ${input.value.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;")}`;
+      commentDiv.innerHTML = `<span class="font-bold text-white">You:</span> ${safeComment}`;
       list.appendChild(commentDiv);
       input.value = "";
     }

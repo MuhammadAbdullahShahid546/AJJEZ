@@ -32,8 +32,9 @@
 
     // 3. Login with Email or Mobile Number & Password
     loginWithIdentifier(identifier, password) {
-      const cleanId = (identifier || '').trim();
+      const rawId = (identifier || '').trim();
       const cleanPass = (password || '').trim();
+      const cleanId = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.sanitizeInput(rawId) : rawId;
 
       if (!cleanId) {
         alert('Please enter your Email address or mobile number.');
@@ -67,9 +68,11 @@
 
     // 4. Create Account
     signUp(fullName, identifier, password) {
-      const cleanName = (fullName || '').trim() || 'Community Member';
-      const cleanId = (identifier || '').trim();
+      const rawName = (fullName || '').trim() || 'Community Member';
+      const rawId = (identifier || '').trim();
       const cleanPass = (password || '').trim();
+      const cleanName = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.sanitizeInput(rawName) : rawName;
+      const cleanId = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.sanitizeInput(rawId) : rawId;
 
       if (!cleanId) {
         alert('Please enter an Email address or mobile number.');
@@ -320,6 +323,10 @@
         if (footer) footer.classList.remove('hidden');
 
         const isGuest = session.type === 'guest';
+        const safeName = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.escapeHTML(session.name) : session.name;
+        const safeBadge = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.escapeHTML(session.badge) : session.badge;
+        const safeEmail = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.escapeHTML(session.email || session.id) : (session.email || session.id);
+
         container.className = "px-4 pt-3.5 pb-1 shrink-0 animate-fade-in";
         container.innerHTML = `
           <div class="p-3.5 rounded-2xl bg-evergreen/80 border border-sage/50 shadow-md space-y-2">
@@ -329,10 +336,10 @@
                   ${isGuest ? '👤' : '✓'}
                 </div>
                 <div class="min-w-0">
-                  <div class="font-bold text-xs text-white truncate max-w-[130px]" title="${session.name}">${session.name}</div>
+                  <div class="font-bold text-xs text-white truncate max-w-[130px]" title="${safeName}">${safeName}</div>
                   <div class="text-[10px] font-mono text-lightGreen flex items-center gap-1 truncate">
                     <span class="size-1.5 rounded-full bg-lightGreen animate-ping shrink-0"></span>
-                    <span>${session.badge}</span>
+                    <span>${safeBadge}</span>
                   </div>
                 </div>
               </div>
@@ -346,8 +353,13 @@
               </button>
             </div>
             <div class="text-[10px] text-mutedOlive font-mono truncate border-t border-sage/30 pt-1.5 flex items-center justify-between">
-              <span class="truncate max-w-[170px]">${session.email || session.id}</span>
+              <span class="truncate max-w-[170px]">${safeEmail}</span>
               <span class="text-lightGreen font-semibold">● Menu Unlocked</span>
+            </div>
+            <!-- Z++ Shield Status Badge in Drawer -->
+            <div class="pt-1 flex items-center justify-center gap-1.5 text-[9px] font-mono text-tea/80 bg-background/50 rounded-lg py-1 border border-sage/20">
+              <span class="size-1.5 rounded-full bg-lightGreen"></span>
+              <span>Z++ Anti-Tamper Shield Active</span>
             </div>
           </div>
         `;

@@ -195,9 +195,19 @@
 
     // 5. Submit to Formspree
     async submit() {
+      // Z++ Anti-Flood Rate Limit Check
+      if (window.AJJEZ_SECURITY) {
+        const rateCheck = window.AJJEZ_SECURITY.checkRateLimit('feedback_submit', 5000);
+        if (!rateCheck.allowed) {
+          alert(rateCheck.message);
+          return;
+        }
+      }
+
       const btn = document.getElementById('feedbackSubmitBtn');
       const commentInput = document.getElementById('feedbackModalComments');
-      const comments = commentInput ? commentInput.value.trim() : '';
+      const rawComments = commentInput ? commentInput.value.trim() : '';
+      const comments = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.sanitizeInput(rawComments) : rawComments;
 
       if (btn) {
         btn.disabled = true;
@@ -206,12 +216,13 @@
 
       // Check current session identity if logged in
       const session = (window.AJJEZ_SESSION && window.AJJEZ_SESSION.getSession()) || { name: 'Anonymous Visitor', email: 'N/A' };
+      const safeName = window.AJJEZ_SECURITY ? window.AJJEZ_SECURITY.sanitizeInput(session.name) : session.name;
 
       const payload = {
-        _subject: `AJJEZ 2-Min Feedback: ${selectedRating} Stars from ${session.name}`,
+        _subject: `AJJEZ 2-Min Feedback: ${selectedRating} Stars from ${safeName}`,
         rating: `${selectedRating} / 5 Stars`,
         feedback: comments || 'No written comment provided',
-        userName: session.name,
+        userName: safeName,
         userEmail: session.email,
         timestamp: new Date().toISOString()
       };
