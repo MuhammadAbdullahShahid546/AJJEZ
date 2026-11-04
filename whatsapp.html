@@ -90,22 +90,6 @@
 
       <!-- Navigation Links -->
       <div class="p-4 space-y-1.5">
-        <!-- Current User Identity in Drawer -->
-        <div class="pb-2">
-          <div class="p-3 rounded-2xl border border-sage/40 bg-evergreen/60 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <div data-user-avatar class="size-8 rounded-full bg-card border border-sage/50 flex items-center justify-center text-sm font-bold shrink-0">👤</div>
-              <div class="min-w-0">
-                <div data-user-name class="font-bold text-xs text-white truncate max-w-[120px]">Guest Explorer</div>
-                <div data-user-badge class="text-[10px] font-mono text-lightGreen truncate">Guest Preview</div>
-              </div>
-            </div>
-            <button onclick="AJJEZ_AUTH.openModal()" class="text-[10px] font-mono px-2 py-1 rounded-lg border border-sage/50 bg-evergreen text-tea hover:text-white hover:border-lightGreen transition-colors cursor-pointer shrink-0">
-              Switch
-            </button>
-          </div>
-        </div>
-
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 py-1">Main Hub</div>
         <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-muted text-mutedOlive hover:text-foreground text-sm font-medium transition-colors">
           <span class="text-base">🏠</span>
@@ -207,18 +191,13 @@
       </div>
 
       <!-- Right: Direct Profile & Menu Trigger (Right Aligned) -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- User Account / Guest Status Button -->
-        <button onclick="AJJEZ_AUTH.openModal()" id="navUserAuthBtn" class="flex items-center gap-1.5 cursor-pointer" title="Manage Profile / Guest Mode">
-          <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-700 bg-card hover:border-sage transition-all">
-            <span class="text-xs">👤</span>
-            <span class="text-[11px] font-mono text-zinc-300 hidden sm:inline">Guest</span>
-          </div>
-        </button>
-
-        <a href="contact.html" class="h-9 px-3.5 sm:px-4 rounded-full bg-[#25D366] hover:bg-[#25D366]/90 text-black font-bold text-xs flex items-center gap-1.5 transition-all shadow-md">
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <a href="contact.html" class="h-9 px-4 rounded-full bg-[#25D366] hover:bg-[#25D366]/90 text-black font-bold text-xs flex items-center gap-1.5 transition-all shadow-md">
           <span>+ New Chat</span>
         </a>
+        <div class="size-9 rounded-full overflow-hidden border border-sage/50 p-0.5 bg-black shrink-0">
+          <img src="profile.jpg" alt="Muhammad Abdullah Shahid" class="w-full h-full rounded-full object-cover">
+        </div>
 
         <!-- Menu Trigger Button on the RIGHT -->
         <button onclick="toggleSideMenu()" class="p-2 sm:px-3 sm:py-2 rounded-xl border border-sage/40 bg-evergreen/90 text-tea hover:text-white hover:border-sage transition-all focus:outline-none shadow-sm cursor-pointer flex items-center gap-2" title="Open Menu">
@@ -228,6 +207,9 @@
           <span class="text-xs font-mono font-semibold">Menu</span>
         </button>
       </div>
+
+    </div>
+  </header>
 
     </div>
   </header>
@@ -470,7 +452,6 @@
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      // Outgoing message from user/guest
       const newMsg = document.createElement('div');
       newMsg.className = "flex justify-end animate-fade-in";
       newMsg.innerHTML = `
@@ -486,29 +467,6 @@
       container.appendChild(newMsg);
       input.value = "";
       container.scrollTop = container.scrollHeight;
-
-      // Simulated auto-reply from Founder Muhammad Abdullah Shahid if chatting with Abdullah
-      const activeChatName = document.getElementById('activeChatName');
-      if (activeChatName && activeChatName.textContent.includes('Abdullah')) {
-        setTimeout(() => {
-          const user = (window.AJJEZ_AUTH && window.AJJEZ_AUTH.getUser()) || { name: 'Friend' };
-          const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          const replyMsg = document.createElement('div');
-          replyMsg.className = "flex justify-start animate-fade-in";
-          replyMsg.innerHTML = `
-            <div class="bg-card text-foreground border border-border/80 p-3.5 rounded-2xl rounded-tl-sm text-xs max-w-[80%] space-y-1.5 shadow-md">
-              <div class="flex items-center gap-1.5 text-[10px] font-mono text-lightGreen font-bold">
-                <span>Muhammad Abdullah Shahid</span>
-                <span class="text-tea bg-evergreen px-1.5 py-0.2 rounded-full border border-sage/40">Founder</span>
-              </div>
-              <p>Hello ${user.name}! Thanks for messaging on AJJEZ WhatsApp. Your preview session is live and connected across our 3-in-1 ecosystem! 🚀</p>
-              <div class="text-[10px] font-mono text-mutedOlive text-right">${replyTime}</div>
-            </div>
-          `;
-          container.appendChild(replyMsg);
-          container.scrollTop = container.scrollHeight;
-        }, 1200);
-      }
     }
 
     function switchChat(name) {
@@ -521,9 +479,6 @@
       btn.textContent = isPlayingVoice ? "⏸" : "▶";
     }
   </script>
-
-  <!-- AJJEZ User Identity & Guest Engine -->
-  <script src="auth.js"></script>
 
 </body>
 </html>

@@ -90,22 +90,6 @@
 
       <!-- Navigation Links -->
       <div class="p-4 space-y-1.5">
-        <!-- Current User Identity in Drawer -->
-        <div class="pb-2">
-          <div class="p-3 rounded-2xl border border-sage/40 bg-evergreen/60 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <div data-user-avatar class="size-8 rounded-full bg-card border border-sage/50 flex items-center justify-center text-sm font-bold shrink-0">👤</div>
-              <div class="min-w-0">
-                <div data-user-name class="font-bold text-xs text-white truncate max-w-[120px]">Guest Explorer</div>
-                <div data-user-badge class="text-[10px] font-mono text-lightGreen truncate">Guest Preview</div>
-              </div>
-            </div>
-            <button onclick="AJJEZ_AUTH.openModal()" class="text-[10px] font-mono px-2 py-1 rounded-lg border border-sage/50 bg-evergreen text-tea hover:text-white hover:border-lightGreen transition-colors cursor-pointer shrink-0">
-              Switch
-            </button>
-          </div>
-        </div>
-
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 py-1">Main Hub</div>
         <a href="index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-muted text-mutedOlive hover:text-foreground text-sm font-medium transition-colors">
           <span class="text-base">🏠</span>
@@ -207,18 +191,13 @@
       </div>
 
       <!-- Right: Action & Menu Trigger Button (Right Aligned) -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- User Account / Guest Status Button -->
-        <button onclick="AJJEZ_AUTH.openModal()" id="navUserAuthBtn" class="flex items-center gap-1.5 cursor-pointer" title="Manage Profile / Guest Mode">
-          <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-700 bg-card hover:border-sage transition-all">
-            <span class="text-xs">👤</span>
-            <span class="text-[11px] font-mono text-zinc-300 hidden sm:inline">Guest</span>
-          </div>
-        </button>
-
-        <a href="contact.html" class="h-9 px-3.5 sm:px-4 rounded-full bg-[#1877F2] hover:bg-[#1877F2]/90 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md">
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <a href="contact.html" class="h-9 px-4 rounded-full bg-[#1877F2] hover:bg-[#1877F2]/90 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md">
           <span>+ Post</span>
         </a>
+        <div class="size-9 rounded-full overflow-hidden border border-sage/50 p-0.5 bg-black shrink-0">
+          <img src="profile.jpg" alt="Muhammad Abdullah Shahid" class="w-full h-full rounded-full object-cover">
+        </div>
 
         <!-- Menu Trigger Button on the RIGHT -->
         <button onclick="toggleSideMenu()" class="p-2 sm:px-3 sm:py-2 rounded-xl border border-sage/40 bg-evergreen/90 text-tea hover:text-white hover:border-sage transition-all focus:outline-none shadow-sm cursor-pointer flex items-center gap-2" title="Open Menu">
@@ -299,13 +278,13 @@
       <!-- Create Post Box -->
       <div class="rounded-2xl border border-border bg-card p-4 sm:p-5 space-y-4 shadow-xl">
         <div class="flex items-center gap-3">
-          <div data-user-avatar class="size-10 rounded-full overflow-hidden border border-sage/50 p-0.5 bg-black shrink-0 flex items-center justify-center text-lg">
-            👤
+          <div class="size-10 rounded-full overflow-hidden border border-sage/50 p-0.5 bg-black shrink-0">
+            <img src="profile.jpg" alt="Muhammad Abdullah Shahid" class="w-full h-full rounded-full object-cover">
           </div>
           <input 
             type="text" 
             id="postInput"
-            placeholder="What's on your mind? Share an update with the AJJEZ community..." 
+            placeholder="What's on your mind, Abdullah? Share an update with the AJJEZ community..." 
             class="flex-1 bg-background border border-border rounded-full px-5 py-2.5 text-sm text-foreground placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/50 focus:border-[#1877F2] transition-all"
           >
         </div>
@@ -539,47 +518,22 @@
         return;
       }
 
-      // Read current logged-in user or guest
-      const user = (window.AJJEZ_AUTH && window.AJJEZ_AUTH.getUser()) || {
-        name: 'Guest Explorer',
-        username: '@guest',
-        isGuest: true,
-        isFounder: false,
-        avatar: '👤',
-        avatarType: 'emoji',
-        badge: 'Guest Preview'
-      };
-
       const feed = document.getElementById('postsFeedContainer');
       const newPostId = 'post_' + Date.now();
-
-      // Avatar HTML
-      const avatarHtml = user.avatarType === 'image' 
-        ? `<img src="${user.avatar}" alt="${user.name}" class="w-full h-full rounded-full object-cover">`
-        : `<div class="w-full h-full flex items-center justify-center text-lg bg-card rounded-full">${user.avatar || '👤'}</div>`;
-
-      // Badge HTML
-      const badgeClass = user.isFounder 
-        ? 'text-tea bg-evergreen border border-sage/40' 
-        : (user.isGuest ? 'text-zinc-400 bg-zinc-800/80 border border-zinc-700' : 'text-lightGreen bg-evergreen border border-lightGreen/40');
-
-      const verifiedBadge = user.isFounder 
-        ? `<span class="size-4 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[10px] font-bold" title="Verified Founder">✓</span>`
-        : (!user.isGuest ? `<span class="size-4 rounded-full bg-lightGreen text-evergreen flex items-center justify-center text-[10px] font-bold" title="Member">✓</span>` : '');
       
       const newArticle = document.createElement('article');
       newArticle.className = "rounded-2xl border border-sage/60 bg-card p-5 space-y-4 shadow-xl animate-fade-in";
       newArticle.innerHTML = `
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="size-11 rounded-full overflow-hidden border-2 border-sage/60 p-0.5 bg-black shrink-0">
-              ${avatarHtml}
+            <div class="size-11 rounded-full overflow-hidden border-2 border-lightGreen p-0.5 bg-black">
+              <img src="profile.jpg" alt="Muhammad Abdullah Shahid" class="w-full h-full rounded-full object-cover">
             </div>
             <div>
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <h4 class="font-bold text-sm text-foreground">${user.name}</h4>
-                ${verifiedBadge}
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full ${badgeClass}">${user.badge}</span>
+              <div class="flex items-center gap-1.5">
+                <h4 class="font-bold text-sm text-foreground">Muhammad Abdullah Shahid</h4>
+                <span class="size-4 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span class="text-[10px] font-mono text-tea bg-evergreen px-2 py-0.5 rounded-full border border-sage/40">Founder</span>
               </div>
               <div class="text-[11px] font-mono text-mutedOlive flex items-center gap-1.5">
                 <span>Just now</span>
@@ -655,9 +609,6 @@
       input.value = "";
     }
   </script>
-
-  <!-- AJJEZ User Identity & Guest Engine -->
-  <script src="auth.js"></script>
 
 </body>
 </html>

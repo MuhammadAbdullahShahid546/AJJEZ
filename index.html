@@ -122,22 +122,6 @@
 
       <!-- Navigation Links -->
       <div class="p-4 space-y-1.5">
-        <!-- Current User Identity in Drawer -->
-        <div class="pb-2">
-          <div class="p-3 rounded-2xl border border-sage/40 bg-evergreen/60 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <div data-user-avatar class="size-8 rounded-full bg-card border border-sage/50 flex items-center justify-center text-sm font-bold shrink-0">👤</div>
-              <div class="min-w-0">
-                <div data-user-name class="font-bold text-xs text-white truncate max-w-[120px]">Guest Explorer</div>
-                <div data-user-badge class="text-[10px] font-mono text-lightGreen truncate">Guest Preview</div>
-              </div>
-            </div>
-            <button onclick="AJJEZ_AUTH.openModal()" class="text-[10px] font-mono px-2 py-1 rounded-lg border border-sage/50 bg-evergreen text-tea hover:text-white hover:border-lightGreen transition-colors cursor-pointer shrink-0">
-              Switch
-            </button>
-          </div>
-        </div>
-
         <div class="text-[10px] font-mono uppercase tracking-wider text-mutedOlive px-3 py-1">Main Hub</div>
         <a href="index.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-evergreen/80 border border-sage/40 text-lightGreen font-semibold text-sm transition-all shadow-sm">
           <div class="flex items-center gap-3">
@@ -224,14 +208,6 @@
 
       <!-- Right Action CTA & Menu Trigger Button (Right Aligned) -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- User Account / Guest Status Button -->
-        <button onclick="AJJEZ_AUTH.openModal()" id="navUserAuthBtn" class="flex items-center gap-1.5 cursor-pointer" title="Manage Profile / Guest Mode">
-          <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-700 bg-card hover:border-sage transition-all">
-            <span class="text-xs">👤</span>
-            <span class="text-[11px] font-mono text-zinc-300 hidden sm:inline">Guest</span>
-          </div>
-        </button>
-
         <a href="contact.html" class="hidden sm:flex h-9 px-4 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-xs items-center gap-1.5 transition-all shadow-md shadow-sage/20 hover:scale-[1.02] active:scale-[0.98]">
           <span>Get Early Access</span>
           <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -827,9 +803,6 @@
     </div>
   </footer>
 
-
-  <!-- AJJEZ User Identity & Guest Engine -->
-  <script src="auth.js"></script>
 
   <!-- Google Antigravity Full-Viewport Atmosphere Engine -->
   <script src="antigravity.js"></script>
