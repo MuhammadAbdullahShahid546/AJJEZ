@@ -89,7 +89,7 @@
   <div id="sideMenuBackdrop" onclick="toggleSideMenu()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 hidden"></div>
 
   <!-- Slide-out Side Menu Drawer -->
-  <aside id="sideMenuDrawer" class="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-background/98 border-r border-border z-50 flex flex-col transition-transform duration-300 -translate-x-full shadow-2xl backdrop-blur-2xl">
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-background/98 border-l border-border z-50 flex flex-col transition-transform duration-300 translate-x-full shadow-2xl backdrop-blur-2xl">
     <!-- Drawer Header -->
     <div class="p-5 border-b border-border flex items-center justify-between">
       <div class="flex items-center gap-2.5">
@@ -166,25 +166,16 @@
   <header class="sticky top-0 z-40 w-full backdrop-blur-lg bg-background/85 border-b border-border">
     <div class="max-w-6xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
       
-      <!-- Left: Side Menu Trigger & Brand Logo -->
-      <div class="flex items-center gap-3">
-        <button onclick="toggleSideMenu()" class="p-2 rounded-xl border border-sage/40 bg-evergreen/90 text-tea hover:text-white hover:border-sage transition-all focus:outline-none shadow-sm cursor-pointer flex items-center gap-2" title="Open Side Menu">
-          <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-          <span class="text-xs font-mono font-semibold hidden sm:inline">Menu</span>
-        </button>
-
-        <a href="index.html" class="flex items-center gap-2.5 group">
-          <div class="size-9 rounded-lg overflow-hidden border border-sage/40 shadow-md shadow-sage/20 group-hover:scale-105 transition-transform shrink-0 bg-black">
-            <img src="logo.png?v=aajez" alt="AAJEZ Logo" class="w-full h-full object-cover">
-          </div>
-          <div class="flex flex-col">
-            <span class="font-bold text-base tracking-tight text-foreground group-hover:text-lightGreen transition-colors">AJJEZ</span>
-            <span class="font-mono text-[10px] text-mutedOlive uppercase tracking-wider">3-in-1 Social Super App</span>
-          </div>
-        </a>
-      </div>
+      <!-- Left: Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="size-9 rounded-lg overflow-hidden border border-sage/40 shadow-md shadow-sage/20 group-hover:scale-105 transition-transform shrink-0 bg-black">
+          <img src="logo.png?v=aajez" alt="AAJEZ Logo" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base tracking-tight text-foreground group-hover:text-lightGreen transition-colors">AJJEZ</span>
+          <span class="font-mono text-[10px] text-mutedOlive uppercase tracking-wider">3-in-1 Social Super App</span>
+        </div>
+      </a>
 
       <!-- Desktop Nav Items -->
       <nav class="hidden md:flex items-center gap-8 text-xs sm:text-sm font-medium">
@@ -196,29 +187,25 @@
         </a>
       </nav>
 
-      <!-- Right Action CTA -->
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="contact.html" class="h-9 px-4 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-sage/20 hover:scale-[1.02] active:scale-[0.98]">
+      <!-- Right Action CTA & Menu Trigger Button (Right Aligned) -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="contact.html" class="hidden sm:flex h-9 px-4 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-xs items-center gap-1.5 transition-all shadow-md shadow-sage/20 hover:scale-[1.02] active:scale-[0.98]">
           <span>Get Early Access</span>
           <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
           </svg>
         </a>
-      </div>
 
-      <!-- Mobile Right Action (CTA & Menu Toggle) -->
-      <div class="md:hidden flex items-center gap-2">
-        <a href="contact.html" class="h-8 px-3 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-xs flex items-center gap-1 transition-all shadow-sm">
+        <a href="contact.html" class="sm:hidden h-8 px-3 rounded-full bg-sage hover:bg-sage/90 text-white font-semibold text-xs flex items-center gap-1 transition-all shadow-sm">
           <span>Join</span>
         </a>
-        <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-sage/40 bg-evergreen/90 text-tea hover:text-white hover:border-sage transition-all focus:outline-none shadow-sm cursor-pointer">
-          <span id="menuText" class="text-xs font-mono font-medium">Menu</span>
-          <svg id="menuIconHamburger" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+        <!-- Menu Trigger Button on the RIGHT -->
+        <button onclick="toggleSideMenu()" class="p-2 sm:px-3 sm:py-2 rounded-xl border border-sage/40 bg-evergreen/90 text-tea hover:text-white hover:border-sage transition-all focus:outline-none shadow-sm cursor-pointer flex items-center gap-2" title="Open Menu">
+          <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
-          <svg id="menuIconClose" class="size-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+          <span class="text-xs font-mono font-semibold">Menu</span>
         </button>
       </div>
 
@@ -573,16 +560,16 @@
       const drawer = document.getElementById('sideMenuDrawer');
       const backdrop = document.getElementById('sideMenuBackdrop');
       if (!drawer || !backdrop) return;
-      const isOpen = !drawer.classList.contains('-translate-x-full');
+      const isOpen = !drawer.classList.contains('translate-x-full');
       
       if (isOpen) {
-        drawer.classList.add('-translate-x-full');
+        drawer.classList.add('translate-x-full');
         backdrop.classList.add('opacity-0');
         setTimeout(() => backdrop.classList.add('hidden'), 300);
       } else {
         backdrop.classList.remove('hidden');
         setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
-        drawer.classList.remove('-translate-x-full');
+        drawer.classList.remove('translate-x-full');
       }
     }
 
