@@ -565,7 +565,7 @@
                 <span class="text-lg">📧</span>
                 <div>
                   <span class="text-mutedOlive block uppercase text-[10px]">Direct Email</span>
-                  <a href="mailto:hello@AJJEZ.com" class="text-foreground font-semibold hover:text-lightGreen transition-colors text-sm font-sans">hello@AJJEZ.com</a>
+                  <a href="mailto:ajjezoffical.dev@gmail.com" class="text-foreground font-semibold hover:text-lightGreen transition-colors text-sm font-sans">ajjezoffical.dev@gmail.com</a>
                 </div>
               </div>
 
@@ -600,10 +600,10 @@
           <div class="rounded-2xl sm:rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-xl">
             <div class="mb-5 space-y-1">
               <h3 class="text-lg font-bold text-foreground">Send a Direct Message</h3>
-              <p class="text-xs text-mutedOlive">Route your inquiry directly to hello@AJJEZ.com.</p>
+              <p class="text-xs text-mutedOlive">Route your inquiry directly to ajjezoffical.dev@gmail.com.</p>
             </div>
 
-            <form id="homeContactForm" action="https://formsubmit.co/hello@AJJEZ.com" method="POST" onsubmit="handleHomeContactSubmit(event)" class="space-y-4 text-left">
+            <form id="homeContactForm" action="https://formsubmit.co/ajjezoffical.dev@gmail.com" method="POST" onsubmit="handleHomeContactSubmit(event)" class="space-y-4 text-left">
               <!-- FormSubmit Anti-Bot Safeguards -->
               <input type="hidden" name="_subject" value="New Inquiry from Homepage — AJJEZ">
               <input type="hidden" name="_template" value="table">
@@ -944,14 +944,14 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span>Sending to hello@AJJEZ.com...</span>
+        <span>Sending to ajjezoffical.dev@gmail.com...</span>
       `;
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch("https://formsubmit.co/ajax/hello@AJJEZ.com", {
+        const response = await fetch("https://formsubmit.co/ajax/ajjezoffical.dev@gmail.com", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -965,13 +965,13 @@
           success.classList.remove('hidden');
           btn.innerHTML = `<span>Message Sent Successfully ✅</span>`;
         } else {
-          alert("Submission could not be completed at this moment. Please email hello@AJJEZ.com directly.");
+          alert("Submission could not be completed at this moment. Please email ajjezoffical.dev@gmail.com directly.");
           btn.disabled = false;
           btn.innerHTML = `<span>Try Again</span>`;
         }
       } catch (err) {
         console.error(err);
-        alert("Error connecting to server. Please email hello@AJJEZ.com directly.");
+        alert("Error connecting to server. Please email ajjezoffical.dev@gmail.com directly.");
         btn.disabled = false;
         btn.innerHTML = `<span>Try Again</span>`;
       }

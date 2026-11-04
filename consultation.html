@@ -326,7 +326,7 @@
           </p>
         </div>
 
-        <form id="consultationForm" action="https://formsubmit.co/hello@AJJEZ.com" method="POST" onsubmit="handleConsultationSubmit(event)" class="space-y-4 text-left">
+        <form id="consultationForm" action="https://formsubmit.co/ajjezoffical.dev@gmail.com" method="POST" onsubmit="handleConsultationSubmit(event)" class="space-y-4 text-left">
           
           <!-- FormSubmit Configuration & Anti-Bot Safeguards -->
           <input type="hidden" name="_subject" value="New Growth Consultation Request — AJJEZ">
@@ -710,7 +710,7 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span>Routing to hello@AJJEZ.com...</span>
+        <span>Routing to ajjezoffical.dev@gmail.com...</span>
       `;
 
       // Extract form fields into payload
@@ -718,7 +718,7 @@
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch("https://formsubmit.co/ajax/hello@AJJEZ.com", {
+        const response = await fetch("https://formsubmit.co/ajax/ajjezoffical.dev@gmail.com", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -728,7 +728,7 @@
         });
 
         btn.classList.replace('bg-sage', 'bg-evergreen');
-        btn.innerHTML = `<span>Sent to hello@AJJEZ.com! ✨</span>`;
+        btn.innerHTML = `<span>Sent to ajjezoffical.dev@gmail.com! ✨</span>`;
         success.classList.remove('hidden');
         form.reset();
 
