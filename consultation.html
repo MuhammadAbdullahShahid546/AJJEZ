@@ -369,21 +369,21 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label for="consultEmail" class="block text-xs font-mono font-medium text-mutedOlive uppercase mb-1">
-                Work / Personal Email <span class="text-lightGreen">*</span>
+                Gmail Address <span class="text-lightGreen">*</span>
               </label>
               <input 
                 type="email" 
                 id="consultEmail" 
                 name="email" 
                 required 
-                placeholder="name@gmail.com or name@company.com"
+                placeholder="yourname@gmail.com"
                 oninput="validateBusinessEmail('consultEmail', 'consultEmailError')"
                 onblur="validateBusinessEmail('consultEmail', 'consultEmailError')"
                 class="w-full bg-background border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
               />
               <p id="consultEmailError" class="hidden text-rose-400 text-xs font-mono mt-1.5 flex items-center gap-1.5">
                 <span>⚠️</span>
-                <span>Please enter a valid working email address.</span>
+                <span>Please enter a valid Gmail address (e.g. yourname@gmail.com).</span>
               </p>
             </div>
             <div>
@@ -603,24 +603,7 @@
       }
     });
 
-    // Valid Working Email Filter (Allows Gmail, Yahoo, Outlook & Corporate; blocks dummy/disposable/bots)
-    const FAKE_AND_DISPOSABLE_DOMAINS = [
-      // Dummy, fake & test domains
-      'example.com', 'example.org', 'example.net',
-      'test.com', 'testing.com', 'sample.com', 'demo.com',
-      'fake.com', 'asdf.com', 'qwerty.com', 'invalid.com',
-      'xyz.com', 'abc.com', '123.com', 'random.com',
-      'none.com', 'null.com', 'domain.com',
-      // Common temporary & disposable email services used by spam bots
-      'mailinator.com', 'mailinator.net', 'mailin8r.com', 'suremail.info',
-      'yopmail.com', 'yopmail.fr', 'yopmail.net', 'cool.fr.nf', 'courriel.fr.nf', 'jetable.fr.nf',
-      '10minutemail.com', '10minutemail.net', '10minmail.com',
-      'tempmail.com', 'temp-mail.org', 'temp-mail.io', 'tempmail.net',
-      'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org', 'guerrillamail.biz', 'sharklasers.com', 'grr.la', 'guerrillamailblock.com',
-      'throwawaymail.com', 'trashmail.com', 'trashmail.net', 'trashmail.me',
-      'dispostable.com', 'getairmail.com', 'fakeinbox.com', 'burnermail.io', 'nada.ltd', 'mohmal.com', 'dropmail.me', 'inboxkitten.com'
-    ];
-
+    // Strict Gmail-Only Validation (Only accepts valid @gmail.com or @googlemail.com)
     function isBusinessEmail(email) {
       if (!email) return false;
       const normalized = email.trim().toLowerCase();
@@ -633,18 +616,19 @@
       const username = parts[0].trim();
       const domain = parts[1].trim();
 
-      // Block generic test usernames (e.g. test@, asdf@, fake@) on test/example domains
-      if (['test', 'fake', 'asdf', 'qwerty'].includes(username) && (domain.includes('test') || domain.includes('example'))) {
+      // Ensure domain is strictly gmail.com or googlemail.com
+      if (domain !== 'gmail.com' && domain !== 'googlemail.com') {
         return false;
       }
 
-      // Check if exact domain or parent domain matches fake/disposable blocklist
-      for (let i = 0; i < FAKE_AND_DISPOSABLE_DOMAINS.length; i++) {
-        const blocked = FAKE_AND_DISPOSABLE_DOMAINS[i];
-        if (domain === blocked || domain.endsWith('.' + blocked)) {
-          return false;
-        }
+      // Username length check (valid Gmail usernames are 3-30 chars)
+      if (username.length < 3) return false;
+
+      // Disallow dummy/spam bot usernames
+      if (['test', 'fake', 'asdf', 'qwerty', 'dummy'].includes(username)) {
+        return false;
       }
+
       return true;
     }
 
