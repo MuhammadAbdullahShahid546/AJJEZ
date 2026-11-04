@@ -463,9 +463,15 @@
               id="consultNotes" 
               name="notes" 
               rows="3" 
+              oninput="validateBusinessMessage('consultNotes', 'consultNotesError', 'consultNotesErrorText', false)"
+              onblur="validateBusinessMessage('consultNotes', 'consultNotesError', 'consultNotesErrorText', false)"
               placeholder="Tell us about your target customer, current channels, and what your revenue goal is for the next quarter..."
               class="w-full bg-background border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
             ></textarea>
+            <p id="consultNotesError" class="hidden text-rose-400 text-xs font-mono mt-1.5 flex items-center gap-1.5">
+              <span>⚠️</span>
+              <span id="consultNotesErrorText">Please enter an appropriate message.</span>
+            </p>
           </div>
 
           <!-- Submit Button -->
@@ -655,6 +661,127 @@
       }
     }
 
+    // ==========================================
+    // Content Moderation & Business Relevance Filter
+    // ==========================================
+    const PROHIBITED_WORDS = new Set([
+      // English Profanity & Slurs
+      'fuck', 'fucking', 'fucked', 'fucker', 'shit', 'bitch', 'bitches', 'asshole', 'assholes', 
+      'bastard', 'cunt', 'dick', 'dicks', 'pussy', 'whore', 'slut', 'faggot', 'retard', 'nigger', 
+      'nigga', 'motherfucker', 'bullshit', 'dumbass', 'jackass', 'prick', 'wanker', 'twat', 'cock',
+      // Roman Urdu & Hindi Slurs / Abuse
+      'bc', 'mc', 'bhenchod', 'behenchod', 'madarchod', 'chutiya', 'chutiye', 'chutya', 'choot',
+      'harami', 'kamina', 'kamine', 'kutta', 'kutte', 'gandu', 'gaandu', 'lodu', 'lauda', 'lawda', 
+      'lund', 'randi', 'kanjar', 'kanjri', 'bhosdi', 'bhosdike', 'bsdk', 'suar', 'gashti', 'dalaal', 
+      'dallay', 'gaand', 'gaandmasti', 'khota', 'khotay', 'idiot', 'stupid'
+    ]);
+
+    const PROHIBITED_PHRASES = [
+      'teri maa', 'madar chod', 'behen chod', 'bhen chod', 'maa ki', 'bhen ki', 'bhen k', 'kill you', 
+      'free bitcoin', 'crypto giveaway', 'earn money fast', 'buy followers', 'escort service', 'adult dating',
+      'casino bonus', 'make money online fast', 'hack account', 'telegram money', 'whatsapp money'
+    ];
+
+    function checkProhibitedLanguage(text) {
+      if (!text) return false;
+      const lower = text.toLowerCase();
+
+      // Check multi-word offensive / spam phrases
+      for (const phrase of PROHIBITED_PHRASES) {
+        if (lower.includes(phrase)) return true;
+      }
+
+      // Leetspeak normalization
+      const normalized = lower
+        .replace(/@/g, 'a')
+        .replace(/\$/g, 's')
+        .replace(/0/g, 'o')
+        .replace(/1/g, 'i')
+        .replace(/3/g, 'e')
+        .replace(/5/g, 's')
+        .replace(/7/g, 't');
+
+      // Check discrete words (avoids substring issues like 'assistance' or 'assets')
+      const words = normalized.replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(Boolean);
+      for (const word of words) {
+        if (PROHIBITED_WORDS.has(word)) return true;
+      }
+
+      return false;
+    }
+
+    function isMeaningfulBusinessMessage(text) {
+      if (!text) return false;
+      const clean = text.trim();
+      
+      // Minimum character count
+      if (clean.length < 15) return false;
+
+      // Minimum words (must have at least 3 readable words)
+      const words = clean.split(/\s+/).filter(w => w.length > 0);
+      if (words.length < 3) return false;
+
+      // Reject repeated single characters spam (e.g. "aaaaaa", "!!!!!!!", "zzzzzz")
+      if (/(.)\1{4,}/.test(clean)) return false;
+
+      // Reject common keyboard mash patterns
+      if (/asdf|qwerty|zxcv/i.test(clean)) return false;
+
+      // Reject gibberish without vowels (words > 6 letters must have at least one vowel)
+      const hasConsonantSmash = words.some(w => w.length >= 7 && !/[aeiouy]/i.test(w));
+      if (hasConsonantSmash) return false;
+
+      return true;
+    }
+
+    function validateBusinessMessage(inputId, errorContainerId, errorTextId, isRequired = true) {
+      const input = document.getElementById(inputId);
+      const container = document.getElementById(errorContainerId);
+      const textElem = document.getElementById(errorTextId);
+      if (!input || !container || !textElem) return true;
+
+      const val = input.value.trim();
+
+      // If empty
+      if (!val) {
+        if (isRequired) {
+          container.classList.remove('hidden');
+          textElem.textContent = "Please share a brief message describing your business goals.";
+          input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+          input.classList.remove('border-lightGreen/60');
+          return false;
+        } else {
+          container.classList.add('hidden');
+          input.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500');
+          return true;
+        }
+      }
+
+      // Check Bad Language / Inappropriate content
+      if (checkProhibitedLanguage(val)) {
+        container.classList.remove('hidden');
+        textElem.textContent = "Prohibited language detected. AJJEZ only accepts respectful, business-related inquiries.";
+        input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        input.classList.remove('border-lightGreen/60');
+        return false;
+      }
+
+      // Check Work / Business Relevance & Gibberish
+      if (isRequired && !isMeaningfulBusinessMessage(val)) {
+        container.classList.remove('hidden');
+        textElem.textContent = "Please provide a meaningful inquiry (at least 3 words) about your brand, growth, or consulting needs.";
+        input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        input.classList.remove('border-lightGreen/60');
+        return false;
+      }
+
+      // Valid
+      container.classList.add('hidden');
+      input.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500');
+      input.classList.add('border-lightGreen/60');
+      return true;
+    }
+
     // Form submission handler
     async function handleConsultationSubmit(e) {
       e.preventDefault();
@@ -676,12 +803,28 @@
         return;
       }
 
-      // 3. Business / Corporate Email Validation
+      // 3. Name & Company Prohibited Language Check
+      const nameInput = document.getElementById('consultName');
+      const companyInput = document.getElementById('consultCompany');
+      if (checkProhibitedLanguage(nameInput?.value) || checkProhibitedLanguage(companyInput?.value)) {
+        alert("Please enter a respectful, appropriate name and company without prohibited words.");
+        if (nameInput) nameInput.focus();
+        return;
+      }
+
+      // 4. Business / Corporate Email Validation
       if (!validateBusinessEmail('consultEmail', 'consultEmailError')) {
         const err = document.getElementById('consultEmailError');
         if (err) err.classList.remove('hidden');
         emailInput.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
         emailInput.focus();
+        return;
+      }
+
+      // 5. Notes / Goals Prohibited Language Check (Optional field)
+      if (!validateBusinessMessage('consultNotes', 'consultNotesError', 'consultNotesErrorText', false)) {
+        const notesInput = document.getElementById('consultNotes');
+        if (notesInput) notesInput.focus();
         return;
       }
 
